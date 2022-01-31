@@ -39,3 +39,21 @@ func TestUserRepository_FindByEmail(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, u)
 }
+
+func TestUserRepository_Find(t *testing.T) {
+	db, teardown := sqlstorage.TestDB(t, databaseURL)
+	defer teardown("users")
+
+	st := sqlstorage.New(db)
+
+	_, err := st.User().FindByEmail("user@example.org")
+	assert.EqualError(t, err, storage.ErrRecordNotFound.Error())
+
+	u := model.TestUser(t)
+	u.Email = "user@example.org"
+	st.User().Create(u)
+
+	u, err = st.User().Find(u.ID)
+	assert.NoError(t, err)
+	assert.NotNil(t, u)
+}
