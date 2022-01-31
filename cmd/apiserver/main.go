@@ -31,8 +31,7 @@ func run() error {
 		return err
 	}
 
-	s := apiserver.New(config)
-	if err := s.Start(); err != nil {
+	if err := apiserver.Start(config); err != nil {
 		return err
 	}
 	return nil

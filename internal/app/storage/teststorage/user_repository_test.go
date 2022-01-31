@@ -2,6 +2,7 @@ package teststorage_test
 
 import (
 	"http-rest-api/internal/app/model"
+	"http-rest-api/internal/app/storage"
 	"http-rest-api/internal/app/storage/teststorage"
 	"testing"
 
@@ -22,7 +23,7 @@ func TestUserRepository_FindByEmail(t *testing.T) {
 	st := teststorage.New()
 
 	_, err := st.User().FindByEmail("user@example.org")
-	assert.Error(t, err)
+	assert.EqualError(t, err, storage.ErrRecordNotFound.Error())
 
 	u := model.TestUser(t)
 	u.Email = "user@example.org"
