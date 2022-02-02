@@ -21,6 +21,7 @@ func Start(config *Config) error {
 	return http.ListenAndServe(config.BindAddr, server)
 }
 
+// Initializes a postgres database
 func newDB(databaseURL string) (*sql.DB, error) {
 	db, err := sql.Open("postgres", databaseURL)
 	if err != nil {

@@ -26,6 +26,7 @@ func (r *UserRepository) Create(u *model.User) error {
 	).Scan(&u.ID)
 }
 
+// Finds user by email
 func (r *UserRepository) FindByEmail(email string) (*model.User, error) {
 	u := &model.User{}
 	if err := r.storage.db.QueryRow(
@@ -39,6 +40,7 @@ func (r *UserRepository) FindByEmail(email string) (*model.User, error) {
 	return u, nil
 }
 
+// Finds user by ID
 func (r *UserRepository) Find(id int) (*model.User, error) {
 	u := &model.User{}
 	if err := r.storage.db.QueryRow(

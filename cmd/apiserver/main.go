@@ -25,6 +25,7 @@ func main() {
 func run() error {
 	flag.Parse()
 
+	// read config from toml file with path configPath
 	config := apiserver.NewConfig()
 	_, err := toml.DecodeFile(configPath, config)
 	if err != nil {
