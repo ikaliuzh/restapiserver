@@ -37,8 +37,8 @@ func (u *User) ComparePassword(password string) bool {
 func (u *User) Validate() error {
 	return validation.ValidateStruct(
 		u,
-		validation.Field(&u.Email, validation.Required, is.Email),
-		validation.Field(&u.Password, validation.By(requiredIf(u.EncryptedPassword == "")), validation.Length(6, 100)),
+		validation.Field(&u.Email, validation.Required, is.Email),                                                      // email is required
+		validation.Field(&u.Password, validation.By(requiredIf(u.EncryptedPassword == "")), validation.Length(6, 100)), // if now password then encrypted expected
 	)
 }
 
