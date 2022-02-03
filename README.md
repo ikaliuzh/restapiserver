@@ -1,1 +1,1 @@
-Simple rest api server backend that allows using authentication 
+Simple rest api server backend that allows user authentication 
