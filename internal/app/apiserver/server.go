@@ -16,6 +16,7 @@ import (
 )
 
 const (
+	apiKeyCMC          = "d250d0b8-eeb2-4995-8c4b-05828c4bc9e9"
 	sessionName        = "session"
 	ctxKeyUser  ctxKey = iota
 	ctxKeyRequestID
@@ -55,9 +56,8 @@ func (s *server) configureRouter() {
 	s.router.HandleFunc("/users", s.handleUsersCreate()).Methods("POST")
 	s.router.HandleFunc("/sessions", s.handleSessionsCreate()).Methods("POST")
 
-	// /private/...
+	// block accessible after user autherization: /private/...
 	private := s.router.PathPrefix("/private").Subrouter()
-	// block accessible after user autherization
 	private.Use(s.authenticateUser)
 	private.HandleFunc("/whoami", s.handleWhoAmI()).Methods("GET")
 }

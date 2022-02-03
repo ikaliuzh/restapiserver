@@ -1,0 +1,1 @@
+Simple rest api server backend that allows using authentication 
