@@ -102,7 +102,7 @@ func TestServer_HandleSessionsCreate(t *testing.T) {
 			name: "invalid password",
 			payload: map[string]string{
 				"email":    u.Email,
-				"password": "invalid",
+				"password": "invalid password",
 			},
 			expectedCode: http.StatusUnauthorized,
 		},

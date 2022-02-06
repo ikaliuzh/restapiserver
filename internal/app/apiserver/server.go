@@ -16,7 +16,6 @@ import (
 )
 
 const (
-	apiKeyCMC          = "d250d0b8-eeb2-4995-8c4b-05828c4bc9e9"
 	sessionName        = "session"
 	ctxKeyUser  ctxKey = iota
 	ctxKeyRequestID
@@ -53,6 +52,9 @@ func (s *server) configureRouter() {
 	s.router.Use(s.setRequestID)
 	s.router.Use(s.logRequest)
 	s.router.Use(handlers.CORS(handlers.AllowedOrigins([]string{"*"})))
+	s.router.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
+		s.logger.Info("logging log")
+	})
 	s.router.HandleFunc("/users", s.handleUsersCreate()).Methods("POST")
 	s.router.HandleFunc("/sessions", s.handleSessionsCreate()).Methods("POST")
 
@@ -92,7 +94,7 @@ func (s *server) logRequest(next http.Handler) http.Handler {
 	})
 }
 
-// middleware for user authentification
+// middleware for user authentication
 func (s *server) authenticateUser(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		session, err := s.sessionsStore.Get(r, sessionName)

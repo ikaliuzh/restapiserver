@@ -49,11 +49,11 @@ func (s *server) handleSessionsCreate() http.HandlerFunc {
 		}
 
 		u, err := s.storage.User().FindByEmail(req.Email)
+		if (err != nil && err.Error() == "record not found") || !u.ComparePassword(req.Password) { // check if passwords match
+			s.error(w, r, http.StatusUnauthorized, errIncorrectEmailOrPassword)
+			return
+		}
 		if err != nil {
-			if err.Error() == "record not found" || !u.ComparePassword(req.Password) { // check if passwords match
-				s.error(w, r, http.StatusUnauthorized, errIncorrectEmailOrPassword)
-				return
-			}
 			s.error(w, r, http.StatusInternalServerError, err)
 			return
 		}

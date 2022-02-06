@@ -18,6 +18,8 @@ func Start(config *Config) error {
 	storage := sqlstorage.New(db)
 	sessionStore := sessions.NewCookieStore([]byte(config.SessionKey))
 	server := newServer(storage, sessionStore)
+
+	server.logger.Infof("starting on apiserver on port %s", config.BindAddr)
 	return http.ListenAndServe(config.BindAddr, server)
 }
 
