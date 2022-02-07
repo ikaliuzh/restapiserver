@@ -10,3 +10,10 @@ func TestUser(t *testing.T) *User {
 		Password: "strongpassword",
 	}
 }
+
+func TestPreferences(t *testing.T) Preferences {
+	return Preferences{
+		TrackedTokens: []string{"ETH"},
+		FiatCurrency:  "USD",
+	}
+}

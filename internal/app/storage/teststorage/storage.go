@@ -6,7 +6,8 @@ import (
 )
 
 type Storage struct {
-	userRepository *UserRepository
+	userRepository        *UserRepository
+	preferencesRepository *PreferencesRepository
 }
 
 func New() *Storage {
@@ -22,4 +23,15 @@ func (st *Storage) User() storage.UserRepository {
 		users:   make(map[int]*model.User),
 	}
 	return st.userRepository
+}
+
+func (st *Storage) Preferences() storage.PreferencesRepository {
+	if st.preferencesRepository != nil {
+		return st.preferencesRepository
+	}
+	st.preferencesRepository = &PreferencesRepository{
+		storage:    st,
+		preferenes: make(map[int]*model.Preferences),
+	}
+	return st.preferencesRepository
 }

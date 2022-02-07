@@ -7,3 +7,8 @@ type UserRepository interface {
 	Find(int) (*model.User, error)
 	FindByEmail(string) (*model.User, error)
 }
+
+type PreferencesRepository interface {
+	Update(model.Preferences, int) error
+	Get(userID int) (*model.Preferences, error)
+}

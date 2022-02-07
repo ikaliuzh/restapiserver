@@ -8,8 +8,9 @@ import (
 )
 
 type Storage struct {
-	db             *sql.DB
-	userRepository *UserRepository
+	db                    *sql.DB
+	userRepository        *UserRepository
+	preferencesRepository *PreferencesRepository
 }
 
 func New(db *sql.DB) *Storage {
@@ -26,4 +27,14 @@ func (st *Storage) User() storage.UserRepository {
 		storage: st,
 	}
 	return st.userRepository
+}
+
+func (st *Storage) Preferences() storage.PreferencesRepository {
+	if st.preferencesRepository != nil {
+		return st.preferencesRepository
+	}
+	st.preferencesRepository = &PreferencesRepository{
+		storage: st,
+	}
+	return st.preferencesRepository
 }
