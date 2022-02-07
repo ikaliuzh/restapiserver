@@ -61,7 +61,10 @@ func (s *server) configureRouter() {
 	// block accessible after user autherization: /private/...
 	private := s.router.PathPrefix("/private").Subrouter()
 	private.Use(s.authenticateUser)
-	private.HandleFunc("/whoami", s.handleWhoAmI()).Methods("GET")
+
+	private.HandleFunc("/preferences", s.handleGetPreferences()).Methods("GET")
+	private.HandleFunc("/preferences", s.handleUpdatePreferences()).Methods("POST")
+
 }
 
 // middleware for assigning request ID

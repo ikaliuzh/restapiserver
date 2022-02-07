@@ -74,8 +74,36 @@ func (s *server) handleSessionsCreate() http.HandlerFunc {
 	}
 }
 
-func (s *server) handleWhoAmI() http.HandlerFunc {
+func (s *server) handleGetPreferences() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		s.respond(w, r, http.StatusOK, r.Context().Value(ctxKeyUser).(*model.User))
+		// ID of a currently authenticated user
+		userID := r.Context().Value(ctxKeyUser).(*model.User).ID
+
+		pref, err := s.storage.Preferences().Get(userID)
+		if err != nil {
+			s.error(w, r, http.StatusInternalServerError, err)
+			return
+		}
+
+		s.respond(w, r, http.StatusOK, pref)
+	}
+}
+
+func (s *server) handleUpdatePreferences() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// ID of a currently authenticated user
+		userID := r.Context().Value(ctxKeyUser).(*model.User).ID
+
+		pref := model.Preferences{}
+		if err := json.NewDecoder(r.Body).Decode(&pref); err != nil {
+			s.error(w, r, http.StatusBadRequest, err)
+			return
+		}
+
+		if err := s.storage.Preferences().Update(pref, userID); err != nil {
+			s.error(w, r, http.StatusInternalServerError, err)
+		}
+
+		s.respond(w, r, http.StatusOK, nil)
 	}
 }

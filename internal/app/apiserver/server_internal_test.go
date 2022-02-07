@@ -169,3 +169,7 @@ func TestServer_AuthenticateUser(t *testing.T) {
 		})
 	}
 }
+
+func TestServer_Preferences(t *testing.T) {
+	// TODO
+}
